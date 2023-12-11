@@ -1,3 +1,4 @@
+like `<channel>` in `redis`
 ### Setup
 ```shell
 ros2 run turtlesim turtlesim_node        # in one terminal
@@ -57,6 +58,54 @@ Type: geometry_msgs/msg/Twist
 Publisher count: 1
 Subscription count: 2
 ```
+- which means that in the package `geometry_msgs` there is a `msg` called `Twist`.
+```shell
+ros2 interface show geometry_msgs/msg/Twist
+
+# it returns
+
+# This expresses velocity in free space broken into its linear and angular parts.
+
+Vector3  linear
+	float64 x
+	float64 y
+	float64 z
+Vector3  angular
+	float64 x
+	float64 y
+	float64 z
+
+```
+- This tells you that the `turtlesim` node is expecting a message `data` with two vectors, `Vector3 linear` and `Vector3 angular`, of three elements each. 
+- Recall the `topic echo` we used. It's the same data structure.
+### ros2 topic pub
+- like `redis-cli` > `publish <channel> '<data>'` we can do same thing in ROS: `ros2 topic pub <topic_name> <msg_type> '<args>'`.
+```shell
+ros2 topic pub --once /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
+```
+- `--once` is an optional argument meaning "publish one message then exit".
+![[Screenshot from 2023-12-11 13-55-43.png]]
+- The turtle move with `vel` given(both linear and angular) in a short period as we expected. The duration for which the turtle will move with the specified velocity depends on the simulation environment and the physics settings.
+- In order to get the turtle to keep moving at a given frequency, we can run:
+```shell
+ros2 topic pub --rate 1 /turtle1/cmd_vel geometry_msgs/msg/Twist "{linear: {x: 2.0, y: 0.0, z: 0.0}, angular: {x: 0.0, y: 0.0, z: 1.8}}"
+```
+- This command publish the velocity with a steady stream at 1 Hz.
+![[Screenshot from 2023-12-11 14-03-36.png]]
+```shell
+ros2 topic echo /turtle1/pose
+```
+- Recheck `rqt_graph`.
+![[Screenshot from 2023-12-11 14-17-35.png]]
+- You can see that the `/turtlesim` node is also publishing to the `pose` topic, which the new `echo` node has subscribed to.
+### ros2 topic hz
+- View the rate at which data is published using:
+```shell
+ros2 topic hz /turtle1/pose # in one terminal
+ros2 topic hz /turtle1/cmd_vel # in the other terminal
+```
+
+![[Screenshot from 2023-12-11 14-24-15.png]]
 
 
 **Topics**:

@@ -1,3 +1,5 @@
+### Prerequisites
+- Before starting these tutorials, install ROS2 by following the instructions on [[01-Installation-ubuntu]], [[02-Configuring-environment]], [[03-Using-turtlesim-package]]
 ### ROS2 nodes
 - Each node in ROS should be responsible for a single, modular purpose. Each node can send and receive data from other nodes via topics, services, actions, or parameters.
 - Using `turtlesim` as example.

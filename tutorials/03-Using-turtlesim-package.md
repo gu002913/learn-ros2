@@ -1,3 +1,5 @@
+### Prerequisites
+- Before starting these tutorials, install ROS2 by following the instructions on [[01-Installation-ubuntu]], [[02-Configuring-environment]]
 ### Install turtlesim
 ```shell
 sudo apt update
@@ -27,7 +29,7 @@ ros2 action list
 ### Install rqt
 ```shell
 sudo apt update
-sudp apt install ros-humble-rqt*
+sudo apt install ros-humble-rqt*
 
 # use rqt
 rqt
